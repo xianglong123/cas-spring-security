@@ -18,7 +18,8 @@ public class MyDataUserDetailService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         System.out.println("username= " + username);
-        UserDetails user = User.withUsername("zhangsan").password("123").authorities("p1").build();
+        // todo 这里后面改成用DB查
+        UserDetails user = User.withUsername(username).password("$2a$10$ZGEzglEemyme6zWSIjDMOO7qqZ3GB3dC9LXZYjBCfhCzcn5HJaLuW").authorities("p1").build();
         return user;
     }
 
