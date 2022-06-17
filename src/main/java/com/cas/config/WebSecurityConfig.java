@@ -21,8 +21,8 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
  * @version: V1.0
  * @review:
  */
-@Configuration
-@EnableGlobalMethodSecurity(prePostEnabled = true)
+//@Configuration
+//@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     // 密码编码器

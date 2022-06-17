@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
  * @version: V1.0
  * @review:
  */
-@Service
+// @Service
 public class MyDataUserDetailService implements UserDetailsService {
 
     @Override
