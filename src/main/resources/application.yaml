@@ -1,15 +1,13 @@
 druid:
-  password: wnST3t2mrMMw/hPIYbYEWw==
+  password: G8T4v0YK7pe4OEgFIVx2LQ==
 server:
   port: 8080
-#  servlet:
-#    context-path: /security-spring-security
-#    session:
-#      cookie:
-#        http-only: true # 如果为true, 那么浏览器脚本将无法访问cookie
-#        secure: true # 如果为true, 则cookie将仅通过HTTPS连接发送
-#      timeout: 3600s # session超时时间，超时就消除了
 spring:
+  redis:
+    timeout: 2000
+    host: 127.0.0.1
+    port: 6379
+    database: 0
   application:
     name: springboot-security
   security:
@@ -18,9 +16,9 @@ spring:
       password: 123
       roles: admin
   datasource:
-    username: ts
+    username: css
     password: "******"
-    url: jdbc:mysql://localhost:3306/ts?useSSL=false&useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true
+    url: jdbc:mysql://localhost:3306/css?useSSL=false&useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&zeroDateTimeBehavior=convertToNull&allowMultiQueries=true
     driver-class-name: com.mysql.cj.jdbc.Driver
     druid:
       # 初始化连接池的连接数量，大小，最小，最大
@@ -63,6 +61,8 @@ spring:
       #        deny: 127.0.0.1
 
       # spring监控，对内部各接口调用的监控
-      aop-patterns: com.cas.*
+#      aop-patterns: com.cas.*
       # 监控页面访问地址：http://localhost:8085/druid/
       password-callback-class-name: com.cas.config.DbPasswordCallback
+logging:
+  config: classpath:logback-spring.xml

@@ -46,11 +46,11 @@ public class DbPasswordCallback extends DruidPasswordCallback {
      */
     public static void main(String[] args) {
         // 生成加密后的密码，放到yml中
-        String password = "123456";
-        String pwd = AesHopeUtil.encrypt("GOURD-HXNLYW-201314", password);
+        String password = "css123";
+        String pwd = AesHopeUtil.encrypt("GOURD-HXNLYW-202206", password);
         System.out.println(pwd);
 
-        String source = AesHopeUtil.decryt("GOURD-HXNLYW-201314", pwd);
+        String source = AesHopeUtil.decryt("GOURD-HXNLYW-202206", pwd);
         System.out.println(source);
     }
 }

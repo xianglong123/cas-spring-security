@@ -1,8 +1,11 @@
 package com.cas.config;
 
+import com.cas.filter.JwtAuthenticationTokenFilter;
 import org.springframework.cglib.proxy.NoOp;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -14,6 +17,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+import javax.annotation.Resource;
 
 /**
  * @author: xianglong[1391086179@qq.com]
@@ -21,9 +27,12 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
  * @version: V1.0
  * @review:
  */
-//@Configuration
+@Configuration
 //@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+
+    @Resource
+    private JwtAuthenticationTokenFilter jwtAuthenticationTokenFilter;
 
     // 密码编码器
     @Bean
@@ -31,22 +40,24 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder();
     }
 
+    @Bean
+    @Override
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+        return super.authenticationManagerBean();
+    }
+
     // 安全拦截机制(最重要)
-
-
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable() //屏蔽CSRF控制，即spring security不再限制CSRF
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
                 .authorizeRequests()
-//                .antMatchers("/r/r1").hasAuthority("p1")
-//                .antMatchers("/r/r2").hasAuthority("p2")
-                .antMatchers("/r/**").authenticated() // 所有/r/**的请求必须认证通过
-                .anyRequest().permitAll() // 除了/r/**, 其他的请求可以访问
-                .and()
-                .formLogin() // 允许表单登录
-                .successForwardUrl("/login-success") // 自定义登录成功的页面地址
-                .and()
-                .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED); // 不创建session
+                // 对于登录接口，支持匿名访问
+                .antMatchers("/user/login").anonymous()
+                // 除了上面的所有请求，全部需要鉴权认证
+                .anyRequest().authenticated();
+        // 把token校验过滤器添加到过滤器链中
+        http.addFilterBefore(jwtAuthenticationTokenFilter, UsernamePasswordAuthenticationFilter.class);
     }
 }
