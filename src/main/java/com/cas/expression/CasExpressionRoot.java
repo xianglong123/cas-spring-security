@@ -11,7 +11,7 @@ import java.util.List;
  * @author xiang_long
  * @version 1.0
  * @date 2022/6/23 4:01 下午
- * @desc
+ * @desc SPEL表达式
  */
 @Component("cas")
 public class CasExpressionRoot {
