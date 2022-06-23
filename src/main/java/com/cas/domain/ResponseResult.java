@@ -14,6 +14,11 @@ public class ResponseResult {
     private String msg;
     private Map<String, String>  data;
 
+    public ResponseResult(String code, String msg) {
+        this.code = code;
+        this.msg = msg;
+    }
+
     public ResponseResult(String msg, String code, Map<String, String> data) {
         this.msg = msg;
         this.code = code;

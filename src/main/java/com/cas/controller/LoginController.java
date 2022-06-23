@@ -35,17 +35,27 @@ public class LoginController {
         return loginService.login(request);
     }
 
-
-    @RequestMapping("/login-success")
-    public String loginSuccess() {
-        return "登录成功";
+    @RequestMapping("/user/logout")
+    public ResponseResult logout() {
+        return loginService.logout();
     }
 
     @GetMapping("/r/r1")
-    @PreAuthorize("hasAuthority('p1')")
+    @PreAuthorize("hasAuthority('system:dept:list')")
     public String r1() {
         return "访问资源1" + getUsername();
     }
+
+    /**
+     * SPEL表达式使用@cas获取容器中bean为cas的对象
+     * @return
+     */
+    @GetMapping("/r/r3")
+    @PreAuthorize("@cas.hasAuthority('system:dept:list')")
+    public String r3() {
+        return "访问资源1" + getUsername();
+    }
+
 
     @GetMapping("/r/r2")
     @PreAuthorize("hasAuthority('p2')")

@@ -2,6 +2,7 @@ package com.cas.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.cas.bean.SysUser;
+import com.cas.dao.MenuMapper;
 import com.cas.dao.UserMapper;
 import com.cas.domain.LoginUser;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -10,6 +11,8 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -24,6 +27,9 @@ public class UserDetailServiceImpl implements UserDetailsService {
      @Resource
      private UserMapper userMapper;
 
+    @Resource
+    private MenuMapper menuMapper;
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         LambdaQueryWrapper<SysUser> queryWrapper = new LambdaQueryWrapper<>();
@@ -35,9 +41,9 @@ public class UserDetailServiceImpl implements UserDetailsService {
         }
 
         // todo 查询对应的权限信息
-
+        List<String> list = menuMapper.selectPermsByUserId(user.getId());
         // 把数据封装成UserDetail返回
-        return new LoginUser(user);
+        return new LoginUser(user, list);
     }
 
 }

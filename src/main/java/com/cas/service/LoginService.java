@@ -13,4 +13,5 @@ public interface LoginService {
 
     ResponseResult login(UserRequest request);
 
+    ResponseResult logout();
 }
