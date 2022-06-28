@@ -1,6 +1,9 @@
 package com.cas.config;
 
 import com.cas.filter.JwtAuthenticationTokenFilter;
+import com.cas.handler.AuthenFailureHandler;
+import com.cas.handler.AuthenSuccessHandler;
+import com.cas.handler.LogoutSuccessHandler;
 import org.springframework.cglib.proxy.NoOp;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -43,6 +46,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Resource
     private AccessDeniedHandler accessDeniedHandler;
 
+    @Resource
+    private AuthenSuccessHandler authenSuccessHandler;
+
+    @Resource
+    private AuthenFailureHandler authenFailureHandler;
+
+    @Resource
+    private LogoutSuccessHandler logoutSuccessHandler;
+
     // 密码编码器
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -74,6 +86,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 // 配置认证失败处理器
                 .authenticationEntryPoint(authenticationEntryPoint)
                 .accessDeniedHandler(accessDeniedHandler);
+
+        // 登录认证处理
+        http.formLogin()
+                // 配置认证成功处理器
+                .successHandler(authenSuccessHandler)
+                // 配置认证失败处理器
+                .failureHandler(authenFailureHandler);
+
+        // 登出成功配置
+        http.logout()
+                .logoutSuccessHandler(logoutSuccessHandler);
 
         // 允许跨域
         http.cors();
