@@ -1,7 +1,7 @@
 druid:
   password: G8T4v0YK7pe4OEgFIVx2LQ==
 server:
-  port: 8080
+  port: 8090
 spring:
   redis:
     timeout: 2000

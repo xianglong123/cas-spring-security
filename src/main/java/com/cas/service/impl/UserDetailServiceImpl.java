@@ -41,7 +41,8 @@ public class UserDetailServiceImpl implements UserDetailsService {
         }
 
         // todo 查询对应的权限信息
-        List<String> list = menuMapper.selectPermsByUserId(user.getId());
+//        List<String> list = menuMapper.selectPermsByUserId(user.getId());
+        List<String> list = Arrays.asList("a", "b");
         // 把数据封装成UserDetail返回
         return new LoginUser(user, list);
     }

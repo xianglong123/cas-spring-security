@@ -1,5 +1,6 @@
 package com.cas.config;
 
+import cn.hutool.extra.spring.SpringUtil;
 import com.cas.filter.JwtAuthenticationTokenFilter;
 import com.cas.handler.AuthenFailureHandler;
 import com.cas.handler.AuthenSuccessHandler;
@@ -23,7 +24,9 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
+import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 
 /**
@@ -97,7 +100,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         // 登出成功配置
         http.logout()
                 .logoutSuccessHandler(logoutSuccessHandler);
-
+        http.logout().permitAll().logoutRequestMatcher(new AntPathRequestMatcher("/sys/out", "DELETE"));
         // 允许跨域
         http.cors();
     }
